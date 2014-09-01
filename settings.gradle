@@ -1,0 +1,2 @@
+include 'spring-corba-client', 'spring-corba-client-sample'
+rootProject.name = "spring-corba"

@@ -1,0 +1,37 @@
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.6
+    version = '1.0.0'
+    group = 'org.gw'
+
+    repositories {
+        maven {
+            url "/Users/gman/.m2/repository"
+        }
+        mavenCentral()
+    }
+
+    configurations {
+        javaAgentSpringInstrument
+    }
+
+    dependencies {
+        compile 'org.gw:commons-utils:1.0.0'
+        compile 'org.gw:java-jmx-statistics:1.0.0'
+        compile 'org.slf4j:slf4j-api:1.6.6'
+        compile 'org.springframework:spring-context:4.0.6.RELEASE'
+        compile 'cglib:cglib-nodep:2.2.2'
+        testCompile 'junit:junit:4.11'
+        testCompile 'org.mockito:mockito-all:1.9.5'
+        testCompile 'org.springframework:spring-test:4.0.6.RELEASE'
+        javaAgentSpringInstrument "org.springframework:spring-instrument:4.0.6.RELEASE"
+    }
+
+    test.doFirst {
+        jvmArgs "-javaagent:${configurations.javaAgentSpringInstrument.asPath}"
+    }
+
+}
+

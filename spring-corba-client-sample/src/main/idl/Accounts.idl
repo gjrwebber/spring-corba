@@ -1,0 +1,16 @@
+	module org {
+		module gw {
+			module samples {
+			    module corba {
+
+                    struct Account {
+                        string name;
+                    };
+
+                    interface Accounts {
+                        void  createAccount(in Account account);
+                    };
+                };
+            };
+        };
+    };

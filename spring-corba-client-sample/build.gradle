@@ -1,0 +1,20 @@
+
+apply plugin: 'application'
+
+mainClassName = 'org.gw.samples.SpringCorbaClientSampleMain'
+description = 'Sample project for showcasing the Spring CORBA Client.'
+
+applicationDefaultJvmArgs = ["-Dcom.sun.management.jmxremote.port=4990", "-Dcom.sun.management.jmxremote.authenticate=false", "-Dcom.sun.management.jmxremote.ssl=false"]
+
+dependencies {
+    compile project(':spring-corba-client')
+    compile ('org.jacorb:jacorb:3.2') { transitive = false }
+    compile 'org.slf4j:slf4j-log4j12:1.6.6'
+}
+
+run.doFirst {
+    jvmArgs("-javaagent:${configurations.javaAgentSpringInstrument.asPath}", "-Dcom.sun.management.jmxremote.port=4990", "-Dcom.sun.management.jmxremote.authenticate=false", "-Dcom.sun.management.jmxremote.ssl=false")
+}
+
+
+
