@@ -52,6 +52,7 @@ public class AppConfig {
 
         // If you want to block on connection, set to true. ie. If a method call on a CORBA object fails
         // due to disconnection it will block until it reconnects or a ConnectedObjectDisconnectedException is thrown
+        // Given the above parameters
         connectorAdapter.setBlockOnConnect(true);
 
         // Add a ConnectorMonitorListener if desired
