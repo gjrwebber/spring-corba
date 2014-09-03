@@ -133,7 +133,7 @@ public abstract class GenericCorbaConnector<C extends org.omg.CORBA.Object>
      */
     @Override
     public void disconnect() {
-
+        super.disconnect();
     }
 
     public RootNamingContextFactoryBean getRootNamingContext() {
