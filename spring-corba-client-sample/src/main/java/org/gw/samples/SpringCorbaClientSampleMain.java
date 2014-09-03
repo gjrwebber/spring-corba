@@ -9,7 +9,7 @@ import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,9 +29,12 @@ public class SpringCorbaClientSampleMain {
         // Run ORBD for CORBA
         Process process = Runtime.getRuntime().exec("orbd -ORBInitialPort 14003");
 
-//        ApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-//        Uncomment for XML configuration
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:app-config.xml");
+
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(AnnotationBasedConfig.class);
+//        Uncomment for Hard coded CorbaConnector configuration example
+//        ApplicationContext ctx = new AnnotationConfigApplicationContext(HardCodedConfig.class);
+//        Uncomment for XML configuration example
+//        ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:app-config.xml");
 
         SpringCorbaClientSampleMain main = ctx.getBean(SpringCorbaClientSampleMain.class);
         main.setupCorbaServer(new AccountsImpl());

@@ -11,7 +11,10 @@
 
     <context:annotation-config/>
 
-    <context:component-scan base-package="org.gw"/>
+    <context:component-scan base-package="org.gw">
+        <!-- Exclude the AccountsConnector example -->
+        <context:exclude-filter type="regex" expression=".*AccountsConnector" />
+    </context:component-scan>
 
     <util:properties id="appProps"
                      location="classpath:app.properties"/>
