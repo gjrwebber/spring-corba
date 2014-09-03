@@ -52,7 +52,7 @@ public abstract class GenericObjectConnector<C extends Object>
      * If set to true, then the object is not connected until the first method
      * call.
      */
-    private boolean lazy = false;
+    private boolean lazy = true;
 
     /**
      * If set to false and the connected object is found to be disconnected on a
