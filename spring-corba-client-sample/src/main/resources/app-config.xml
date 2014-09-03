@@ -23,12 +23,11 @@
             properties-ref="appProps" system-properties-mode="OVERRIDE"/>
 
     <bean id="accountsConnector"
-          class="org.gw.connector.corba.SpringLoadedJMXCorbaConnectorAdapter"
+          class="org.gw.connector.corba.CorbaConnector"
           p:lazy="true"
           p:blockOnConnect="false"
           p:retryIntervalSeconds="2"
-          p:maxRetries="2"
-          p:listener-ref="corbaConnectionListener">
+          p:maxRetries="2">
         <constructor-arg index="0" type="java.lang.Class"
                          value="org.gw.samples.corba.Accounts"/>
         <constructor-arg index="1" type="java.lang.String"

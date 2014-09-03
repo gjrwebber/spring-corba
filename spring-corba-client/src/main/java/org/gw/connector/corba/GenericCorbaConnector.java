@@ -7,6 +7,7 @@ import org.omg.CORBA.TIMEOUT;
 import org.omg.CORBA.TRANSIENT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -29,6 +30,7 @@ public abstract class GenericCorbaConnector<C extends org.omg.CORBA.Object>
 	private static Logger logger = LoggerFactory
 			.getLogger(GenericCorbaConnector.class);
 
+    @Autowired
 	protected RootNamingContextFactoryBean rootNamingContext;
 
 	private String corbaObjectName;
