@@ -1,7 +1,6 @@
 package org.gw.samples;
 
-import org.gw.connector.ConnectedObjectDisconnectedException;
-import org.gw.samples.service.MyService;
+import org.gw.samples.service.AccountsService;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
@@ -22,6 +21,9 @@ public class SpringCorbaClientSampleMain {
     private NamingContextExt namingContext;
 
     @Autowired
+    private AccountsService accountsService;
+
+    @Autowired
     private ORB orb;
 
     public static void main(String[] args) throws Exception {
@@ -39,19 +41,10 @@ public class SpringCorbaClientSampleMain {
         SpringCorbaClientSampleMain main = ctx.getBean(SpringCorbaClientSampleMain.class);
         main.setupCorbaServer(new AccountsImpl());
 
-        MyService myService = ctx.getBean(MyService.class);
+        // Try and create an account
+        main.accountsService.createAccount("Lara");
 
-        try {
-            // Try and create an account
-            myService.createAccount("Lara");
-
-        } catch (ConnectedObjectDisconnectedException e) {
-            // If the CORBA connection was lost and it could not reconnect given the connectors
-            // parameters then it will throw a ConnectedObjectDisconnectedException
-            e.printStackTrace();
-        }
-
-        // Close ORBD
+        // Shutdown ORBD
         process.destroy();
     }
 
