@@ -60,10 +60,6 @@ public class HardCodedConfig {
         // Add a ConnectorMonitorListener if desired
         connectorAdapter.setListener(connectorMonitorListener);
 
-        // Create the FactoryBean for the
-//        CorbaConnectorObjectFactoryBean<SpringLoadedJMXCorbaConnectorAdapter> fb = new CorbaConnectorObjectFactoryBean<SpringLoadedJMXCorbaConnectorAdapter>(connectorAdapter);
-//
-//        return fb;
         return connectorAdapter;
     }
 }
