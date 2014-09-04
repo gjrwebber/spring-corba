@@ -1,14 +1,15 @@
 package org.gw.samples;
 
 import org.gw.connector.ConnectorMonitorListener;
+import org.gw.connector.corba.CorbaConnector;
 import org.gw.connector.corba.RootNamingContextFactoryBean;
-import org.gw.connector.corba.SpringLoadedJMXCorbaConnectorAdapter;
 import org.gw.samples.corba.Accounts;
 import org.gw.stats.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
@@ -16,9 +17,10 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * Created by gman on 29/08/2014.
  */
 @Configurable
-@ComponentScan("org.gw")
+@ComponentScan(basePackages = "org.gw", excludeFilters = {
+        @ComponentScan.Filter(pattern = ".*AccountsConnector", type = FilterType.REGEX)})
 @PropertySource("app.properties")
-public class AppConfig {
+public class HardCodedConfig {
 
     @Autowired
     private ConnectorMonitorListener connectorMonitorListener;
@@ -35,8 +37,8 @@ public class AppConfig {
     }
 
     @Bean
-    public SpringLoadedJMXCorbaConnectorAdapter accountsConnector() {
-        SpringLoadedJMXCorbaConnectorAdapter connectorAdapter = new SpringLoadedJMXCorbaConnectorAdapter(Accounts.class, AccountsImpl.CONTEXT+"/"+AccountsImpl.NAME);
+    public CorbaConnector accountsConnector() {
+        CorbaConnector connectorAdapter = new CorbaConnector(Accounts.class, AccountsImpl.CONTEXT + "/" + AccountsImpl.NAME);
         connectorAdapter.setRootNamingContext(rootNamingContext);
         connectorAdapter.setStatsService(statisticsService);
 
@@ -52,15 +54,12 @@ public class AppConfig {
 
         // If you want to block on connection, set to true. ie. If a method call on a CORBA object fails
         // due to disconnection it will block until it reconnects or a ConnectedObjectDisconnectedException is thrown
+        // Given the above parameters
         connectorAdapter.setBlockOnConnect(true);
 
         // Add a ConnectorMonitorListener if desired
         connectorAdapter.setListener(connectorMonitorListener);
 
-        // Create the FactoryBean for the
-//        CorbaConnectorObjectFactoryBean<SpringLoadedJMXCorbaConnectorAdapter> fb = new CorbaConnectorObjectFactoryBean<SpringLoadedJMXCorbaConnectorAdapter>(connectorAdapter);
-//
-//        return fb;
         return connectorAdapter;
     }
 }

@@ -1,8 +1,11 @@
 package org.gw.connector.corba;
 
+import org.gw.connector.GenericObjectConnector;
+import org.gw.connector.ITestObject;
 import org.gw.connector.RetryConnectionException;
+import org.gw.connector.TestObject;
 
-public class TestConnector extends GenericCorbaConnector<ITestObject> {
+public class TestConnector extends GenericObjectConnector<ITestObject> {
 
 	private int connectAttempts = 0;
 	private int connectAfter = 1;
@@ -43,4 +46,13 @@ public class TestConnector extends GenericCorbaConnector<ITestObject> {
 		this.connectAttempts = attempts;
 	}
 
+    @Override
+    public boolean isRetryException(Throwable e) {
+        return false;
+    }
+
+    @Override
+    public boolean isConnected() {
+        return obj != null;
+    }
 }

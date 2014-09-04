@@ -5,6 +5,9 @@ import org.gw.stats.StatisticsService;
 import org.gw.commons.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+import org.springframework.jmx.export.annotation.ManagedOperation;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -25,6 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * to be down it will re-connect using the reconnection logic described above.
  *
  * @author Gman
+ * @see IConnector
  * @see IAsyncConnector
  */
 public abstract class GenericReconnectingConnector
@@ -63,11 +67,13 @@ public abstract class GenericReconnectingConnector
     /**
      * An {@link StatisticsService} to log stats against.
      */
+    @Autowired(required = false)
     protected StatisticsService statsService;
 
     /**
      * Users can provide a ConnectorMonitorListener for listening to connection up and down events.
      */
+    @Autowired(required = false)
     protected ConnectorMonitorListener listener;
 
     /**
@@ -127,6 +133,7 @@ public abstract class GenericReconnectingConnector
      * progress. The {@link ConnectorAsyncConnectionCallback} is added
      * to the {@link java.util.Set} of callbacks.
      */
+    @ManagedOperation
     public boolean connectAsync() {
         return connectAsync(null);
     }
@@ -238,6 +245,7 @@ public abstract class GenericReconnectingConnector
      * @see IConnector#disconnect()
      */
     @Override
+    @ManagedOperation
     public void disconnect() {
         notifyConnectionDown();
     }
@@ -246,6 +254,7 @@ public abstract class GenericReconnectingConnector
      * @see IConnector#connect()
      */
     @Override
+    @ManagedOperation
     public boolean connect() throws CouldNotConnectException,
             ConnectTimeoutException {
         return connect(connectionTimeoutInMillis, maxRetries,
@@ -451,77 +460,14 @@ public abstract class GenericReconnectingConnector
         }
     }
 
-//    /**
-//     * @see org.gw.connector.IConnector#isConnected()
-//     */
-//    @Override
-//    public boolean isConnected() {
-//        return this.connected.get();
-//    }
-
     /**
      * @see IConnector#isConnecting()
      */
     @Override
+    @ManagedAttribute
     public boolean isConnecting() {
         return this.connecting.get();
     }
-
-//
-//	/**
-//	 * @throws CouldNotConnectException
-//	 * @throws ConnectTimeoutException
-//	 * @see org.gw.connector.IConnector#getConnectedObject()
-//	 */
-//	@Override
-//	public C getConnectedObject() throws CouldNotConnectException,
-//			ConnectTimeoutException {
-//
-//		try {
-//			if (!isLazy()) {
-//				/* connect() returns immediately if already connected. */
-//				connect();
-//			}
-//		} catch (CouldNotConnectException e) {
-//			logger.error(e.getMessage(), e);
-//			throw e;
-//		}
-//		return getProxiedObject();
-//	}
-//
-//	/**
-//	 * Returns a proxied version of the connected {@link Object}
-//	 *
-//	 * @return
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public C getProxiedObject() {
-//
-//		if (proxy == null) {
-//			proxy = (C) Enhancer.create(objType,
-//					new ConnectorObjectInterceptor(this));
-//		}
-//		return proxy;
-//	}
-//
-//	/**
-//	 * Returns the underlying connected object
-//	 *
-//	 * @return
-//	 */
-//	public C getObj() {
-//		return obj;
-//	}
-
-    /**
-     * Tests the connection. This should be done by the concrete impl as it only knows how.
-     *
-     * @return true if the connection is healthy, false otherwise. Returns true by default.
-     */
-    protected boolean testConnection() {
-        return true;
-    }
-
 
     /**
      * Implementor's of this class must implement this method to do the actual
@@ -536,32 +482,39 @@ public abstract class GenericReconnectingConnector
      *
      * @return
      */
+    @ManagedAttribute
     public String getName() {
         return getClass().getSimpleName();
     }
 
+    @ManagedAttribute
     public int getMaxRetries() {
         return this.maxRetries;
     }
 
+    @ManagedAttribute
     public void setMaxRetries(int maxRetries) {
         this.maxRetries = maxRetries;
     }
 
+    @ManagedAttribute
     public int getRetryIntervalSeconds() {
         return this.retryIntervalSeconds;
     }
 
+    @ManagedAttribute
     public void setRetryIntervalSeconds(int retryIntervalSeconds) {
         this.retryIntervalSeconds = retryIntervalSeconds;
     }
 
     @Override
+    @ManagedAttribute
     public Date getLastConnectionDate() {
         return this.lastConnectedDate;
     }
 
     @Override
+    @ManagedAttribute
     public String getUptime() {
         if (!isConnected()) {
             return "Not Connected";
@@ -571,11 +524,12 @@ public abstract class GenericReconnectingConnector
         return StringUtils.convertMillisToString(uptimeInMillis, true);
     }
 
-    @Override
+    @ManagedAttribute
     public long getConnectionTimeoutInMillis() {
         return connectionTimeoutInMillis;
     }
 
+    @ManagedAttribute
     public void setConnectionTimeoutInMillis(long connectionTimeoutInMillis) {
         this.connectionTimeoutInMillis = connectionTimeoutInMillis;
     }

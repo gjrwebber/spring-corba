@@ -1,8 +1,9 @@
 package org.gw.connector;
 
+import org.gw.connector.corba.GenericCorbaConnector;
 import org.omg.CORBA.COMM_FAILURE;
 
-public abstract class AbstractTestConnector<C extends org.omg.CORBA.Object> extends GenericObjectConnector<C> {
+public abstract class AbstractTestConnector<C extends org.omg.CORBA.Object> extends GenericCorbaConnector<C> {
 
 	protected int connectAttempts = 0;
 	protected int connectAfter = 1;

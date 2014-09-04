@@ -1,9 +1,8 @@
 package org.gw.connector.corba;
 
-import org.junit.Assert;
+import org.gw.connector.ITestObject;
+import org.junit.*;
 import org.gw.connector.TestException;
-import org.junit.Ignore;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:test-corba-connector.xml")
@@ -32,6 +32,24 @@ public class TestConnectorFactoryFramework {
 
 	@Autowired
 	private TestPrototypeConnector prototypeConnector;
+
+    private static Process orbdProcess;
+
+    @BeforeClass
+    public static void startORBD() throws IOException {
+
+        System.setProperty("naming.service.port", "14004");
+        // Run ORBD for CORBA
+        orbdProcess = Runtime.getRuntime().exec("orbd -ORBInitialPort 14004");
+
+    }
+
+    @AfterClass
+    public static void destroyORBD() {
+        if (orbdProcess != null) {
+            orbdProcess.destroy();
+        }
+    }
 
 	@PostConstruct
 	public void init() {

@@ -9,29 +9,28 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-    <context:annotation-config />
+    <context:annotation-config/>
 
-    <context:component-scan base-package="org.gw" />
+    <context:component-scan base-package="org.gw">
+        <!-- Exclude the AccountsConnector example -->
+        <context:exclude-filter type="regex" expression=".*AccountsConnector" />
+    </context:component-scan>
 
     <util:properties id="appProps"
-                     location="classpath:app.properties" />
+                     location="classpath:app.properties"/>
 
     <context:property-placeholder
-            properties-ref="appProps" system-properties-mode="OVERRIDE" />
+            properties-ref="appProps" system-properties-mode="OVERRIDE"/>
 
     <bean id="accountsConnector"
-          class="org.gw.connector.corba.SpringLoadedJMXCorbaConnectorAdapter"
+          class="org.gw.connector.corba.CorbaConnector"
           p:lazy="true"
           p:blockOnConnect="false"
           p:retryIntervalSeconds="2"
-          p:maxRetries="2"
-          p:listener-ref="corbaConnectionListener">
+          p:maxRetries="2">
         <constructor-arg index="0" type="java.lang.Class"
-                         value="org.gw.samples.corba.Accounts" />
+                         value="org.gw.samples.corba.Accounts"/>
         <constructor-arg index="1" type="java.lang.String"
-                         value="org.gw.samples/Accounts" />
+                         value="org.gw.samples/Accounts"/>
     </bean>
-    <!--<bean id="accountsObjectFactory"-->
-          <!--class="org.gw.connector.corba.CorbaConnectorObjectFactoryBean"-->
-          <!--p:connector-ref="accountsConnector" />-->
-    </beans>
+</beans>

@@ -3,18 +3,20 @@ package org.gw.connector;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 
+import java.util.Date;
+
 /**
  * The connector interface.
  *
  * @author Gman
  */
-public interface IConnector extends IConnectionStatus {
+public interface IConnector {
 
     /**
      * Attempts to connect. This method
      * returns true if a new connection was made, otherwise false is returned if
      * already connected. The {@link CouldNotConnectException} is thrown if a
-     * connection could not be made using the {@link IConnector}'s connection
+     * connection could not be made using the IConnector's connection
      * logic. The {@link ConnectTimeoutException} is thrown if a connection
      * could not be made in the timeout period if one has been applied.
      *
@@ -29,7 +31,7 @@ public interface IConnector extends IConnectionStatus {
      * Attempts to connect. This method
      * returns true if a new connection was made, otherwise false is returned if
      * already connected. The {@link CouldNotConnectException} is thrown if a
-     * connection could not be made using the {@link IConnector}'s connection
+     * connection could not be made using the IConnector's connection
      * logic and the given parameters. The {@link ConnectTimeoutException} is thrown if a connection
      * could not be made in the given timeout period.
      *
@@ -67,7 +69,28 @@ public interface IConnector extends IConnectionStatus {
     @ManagedAttribute
     String getName();
 
+    /**
+     * @return The connection timeout in millis
+     */
     @ManagedAttribute
     long getConnectionTimeoutInMillis();
+
+    /**
+     * Returns the {@link java.util.Date} of the IConnector's last successful
+     * connection
+     *
+     * @return the {@link java.util.Date} of the IConnector's last successful
+     *         connection
+     */
+    @ManagedAttribute
+    Date getLastConnectionDate();
+
+    /**
+     * Returns the uptime as a {@link String} 23d 15m 34s
+     *
+     * @return
+     */
+    @ManagedAttribute
+    String getUptime();
 
 }

@@ -1,7 +1,11 @@
 package org.gw.connector.corba;
 
 import org.gw.connector.RetryConnectionException;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+@Service
+@Scope("prototype")
 public class TestPrototypeConnector extends GenericCorbaConnector<ITestPrototypeObject> {
 
     private int connectAttempts = 0;
