@@ -1,11 +1,15 @@
 package org.gw.connector.corba;
 
+import org.gw.connector.ITestObject;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 @Service
 public class TestLazyConnectorStartup {
@@ -15,6 +19,24 @@ public class TestLazyConnectorStartup {
 
 	@Autowired
 	private ITestPrototypeObject testPrototypeObj;
+
+    private static Process orbdProcess;
+
+    @BeforeClass
+    public static void startORBD() throws IOException {
+
+        System.setProperty("naming.service.port", "14005");
+        // Run ORBD for CORBA
+        orbdProcess = Runtime.getRuntime().exec("orbd -ORBInitialPort 14005");
+
+    }
+
+    @AfterClass
+    public static void destroyORBD() {
+        if (orbdProcess != null) {
+            orbdProcess.destroy();
+        }
+    }
 
 	/**
 	 * @param args

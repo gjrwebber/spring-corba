@@ -13,7 +13,7 @@
 	<context:load-time-weaver />
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<context:component-scan base-package="org.gw.stats" />
-    <!--<context:component-scan base-package="org.gw.connector.corba" />-->
+    <context:component-scan base-package="org.gw.connector.corba" />
 
     <util:properties id="appProps"
                      location="classpath:app.properties" />
@@ -26,8 +26,5 @@
 		class="org.gw.connector.corba.TestConnector"
 		p:maxRetries="3" p:connectAfter="5"
 		p:statsService-ref="annotationDrivenJMXStatisticsService" />
-
-	<bean class="org.gw.connector.corba.ATestUser"
-		p:obj-ref="testObject" />
 
 </beans>

@@ -1,7 +1,10 @@
 package org.gw.connector.corba;
 
+import org.gw.connector.ITestObject;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.gw.connector.TestException;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:test-lazy-corba-connector.xml")
@@ -31,6 +35,24 @@ public class TestLazyConnectorFactoryFramework {
 
 	@Autowired
 	private TestPrototypeConnector prototypeConnector;
+
+    private static Process orbdProcess;
+
+    @BeforeClass
+    public static void startORBD() throws IOException {
+
+        System.setProperty("naming.service.port", "14003");
+        // Run ORBD for CORBA
+        orbdProcess = Runtime.getRuntime().exec("orbd -ORBInitialPort 14003");
+
+    }
+
+    @AfterClass
+    public static void destroyORBD() {
+        if (orbdProcess != null) {
+            orbdProcess.destroy();
+        }
+    }
 
 	@PostConstruct
 	public void init() {

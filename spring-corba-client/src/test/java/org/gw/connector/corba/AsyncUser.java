@@ -1,7 +1,9 @@
 package org.gw.connector.corba;
 
+import org.gw.connector.ITestObject;
 import org.gw.connector.TestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
