@@ -55,9 +55,9 @@ public class SpringCorbaClientSampleMain {
 
         org.omg.CORBA.Policy[] policies = {};
 
-        POA poaPTIPSConfigInstanceAccessor = poaRoot.create_POA(AccountsImpl.NAME + "_poa", poaRoot.the_POAManager(), policies);
-        poaPTIPSConfigInstanceAccessor.activate_object(accounts);
-        org.omg.CORBA.Object obj = poaPTIPSConfigInstanceAccessor.servant_to_reference(accounts);
+        POA poa = poaRoot.create_POA(AccountsImpl.NAME + "_poa", poaRoot.the_POAManager(), policies);
+        poa.activate_object(accounts);
+        org.omg.CORBA.Object obj = poa.servant_to_reference(accounts);
         try {
             namingContext.bind_new_context(
                     namingContext.to_name(AccountsImpl.CONTEXT));

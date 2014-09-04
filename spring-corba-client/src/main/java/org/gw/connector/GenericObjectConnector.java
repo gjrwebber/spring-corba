@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
  * @see IAsyncConnector
  * @see IObjectConnector
  */
-public abstract class GenericObjectConnector<C extends Object>
+public abstract class GenericObjectConnector<C>
 		extends GenericReconnectingConnector implements IObjectConnector<C>, FactoryBean<C> {
 
 	private static Logger logger = LoggerFactory

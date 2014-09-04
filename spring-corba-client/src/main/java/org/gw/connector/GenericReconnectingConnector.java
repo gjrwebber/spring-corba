@@ -524,7 +524,6 @@ public abstract class GenericReconnectingConnector
         return StringUtils.convertMillisToString(uptimeInMillis, true);
     }
 
-    @Override
     @ManagedAttribute
     public long getConnectionTimeoutInMillis() {
         return connectionTimeoutInMillis;

@@ -1,5 +1,7 @@
 package org.gw.connector;
 
+import org.springframework.jmx.export.annotation.ManagedAttribute;
+
 /**
  * Created by gman on 6/08/2014.
  *
@@ -28,14 +30,31 @@ public interface IObjectConnector<C> extends IConnector, IAsyncConnector {
      *
      * @return The connected {@link Object} <C>'s type.
      */
+    @ManagedAttribute
     Class<? extends C> getObjType();
 
+    /**
+     * @return the connector Object. It may or may not be connected at this point.
+     */
     C getObj();
 
+    /**
+     * @return true if this connect should block method calls when disconnected.
+     */
+    @ManagedAttribute
     boolean isBlockOnConnect();
 
+    /**
+     * @return true if this IObjectConnector is lazy.
+     */
+    @ManagedAttribute
     boolean isLazy();
 
+    /**
+     * Set to true to make this IObjectConnector lazy
+     * @param lazy
+     */
+    @ManagedAttribute
     void setLazy(boolean lazy);
 
     /**
