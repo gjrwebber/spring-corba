@@ -61,7 +61,7 @@ This is the result of a Spring service being injected with a CORBA (client) Obje
 
 ### Configuration
 
-#### Annotation based
+#### [Annotation based](id:annotation)
 	
 For full annotation configuration, check out ```AnnotationBasedConfig.java```:
 
@@ -104,7 +104,7 @@ and ```AccountsConnector.java```:
 	    }
 	}
 
-#### XML
+#### [XML](id:xml)
 
 If you want to use XML to configure, check out ```app-config.xml```:
 
@@ -123,7 +123,7 @@ If you want to use XML to configure, check out ```app-config.xml```:
     </bean>
     ...
 
-#### Java Config
+#### [Java Config](id:java)
 
 To configure using Java, check out ```HardCodedConfig.java```:
 
